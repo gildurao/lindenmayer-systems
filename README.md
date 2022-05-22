@@ -1,2 +1,3 @@
-# lindenmayer-systems
-This repo contains implementations of L-Systems in several programming languages.
+# lindenmayer_systems
+
+A Dart library to handle generative grammars known as L-Systems (Lindenmayer Systems).
