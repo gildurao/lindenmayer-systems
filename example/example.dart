@@ -2,7 +2,9 @@ import 'package:lindenmayer_systems/src/lindenmayer_systems/dol_system/dol_syste
 import 'package:lindenmayer_systems/src/production_rules/production_rule.dart';
 
 void main() {
-  final test = DolSystem(
+  /// [DolSystem] Examples
+
+  final testDolSystem = DolSystem(
     alphabet: ['A', 'B'],
     axiom: 'AB',
     productionRuleSet: {
@@ -11,8 +13,12 @@ void main() {
     },
   );
 
-  final result = test.generate(1);
-
   // Expected result is ABBA
-  print(result);
+  print(testDolSystem.generate(1));
+
+  testDolSystem.generateAsStream(2)
+    ..listen(
+      // Should print (ABBA, 1) and ('ABBABAAB', 2)
+      print,
+    );
 }
