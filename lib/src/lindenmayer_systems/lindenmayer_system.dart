@@ -50,9 +50,19 @@ abstract class LindenmayerSystem {
   ///
   final List<String> alphabet;
 
+  /// {@template generate}
   ///
   /// How the L-System will generate its string output for a number of
   /// [iterations].
   ///
+  /// {@endtemplate}
   String generate(int iterations);
+
+  ///
+  /// {@macro generate}
+  ///
+  /// Returns each iteration's value via [Stream] in a (String,int) record
+  /// with the iteration's sentence and number respectively.
+  ///
+  Stream<(String sentence, int iteration)> generateAsStream(int iterations);
 }

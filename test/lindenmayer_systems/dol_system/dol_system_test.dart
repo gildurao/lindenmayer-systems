@@ -1,5 +1,4 @@
-import 'package:lindenmayer_systems/src/lindenmayer_systems/dol_system/dol_system.dart';
-import 'package:lindenmayer_systems/src/production_rules/production_rules.dart';
+import 'package:lindenmayer_systems/lindenmayer_systems.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -67,21 +66,139 @@ void main() {
           );
         },
       );
-      test(
+      group(
         'generate',
         () {
-          final test = DolSystem(
-            alphabet: ['A', 'B'],
-            axiom: 'AB',
-            productionRuleSet: {
-              ProductionRule(predecessor: 'A', successor: 'AB'),
-              ProductionRule(predecessor: 'B', successor: 'BA'),
+          test(
+            'throws AssertionError if iterations is negative',
+            () {
+              final test = DolSystem(
+                alphabet: ['A', 'B'],
+                axiom: 'AB',
+                productionRuleSet: {
+                  ProductionRule(predecessor: 'A', successor: 'AB'),
+                  ProductionRule(predecessor: 'B', successor: 'BA'),
+                },
+              );
+
+              expect(
+                () => test.generate(-1),
+                throwsA(isA<AssertionError>()),
+              );
+            },
+          );
+          test(
+            'returns axiom if iterations is zero',
+            () {
+              final test = DolSystem(
+                alphabet: ['A', 'B'],
+                axiom: 'AB',
+                productionRuleSet: {
+                  ProductionRule(predecessor: 'A', successor: 'AB'),
+                  ProductionRule(predecessor: 'B', successor: 'BA'),
+                },
+              );
+
+              final result = test.generate(0);
+
+              expect(result, 'AB');
             },
           );
 
-          final result = test.generate(1);
+          test(
+            'returns generated sentence if iterations is greater than zero',
+            () {
+              final test = DolSystem(
+                alphabet: ['A', 'B'],
+                axiom: 'AB',
+                productionRuleSet: {
+                  ProductionRule(predecessor: 'A', successor: 'AB'),
+                  ProductionRule(predecessor: 'B', successor: 'BA'),
+                },
+              );
 
-          expect(result, 'ABBA');
+              final result = test.generate(1);
+
+              expect(result, 'ABBA');
+            },
+          );
+        },
+      );
+
+      group(
+        'generateAsStream',
+        () {
+          test(
+            'throws AssertionError if iterations is negative',
+            () {
+              final test = DolSystem(
+                alphabet: ['A', 'B'],
+                axiom: 'AB',
+                productionRuleSet: {
+                  ProductionRule(predecessor: 'A', successor: 'AB'),
+                  ProductionRule(predecessor: 'B', successor: 'BA'),
+                },
+              );
+
+              final result = test.generateAsStream(-1);
+
+              expectLater(
+                result,
+                emitsError(
+                  isA<AssertionError>(),
+                ),
+              );
+            },
+          );
+          test(
+            'emits axiom if iterations is zero',
+            () {
+              final test = DolSystem(
+                alphabet: ['A', 'B'],
+                axiom: 'AB',
+                productionRuleSet: {
+                  ProductionRule(predecessor: 'A', successor: 'AB'),
+                  ProductionRule(predecessor: 'B', successor: 'BA'),
+                },
+              );
+
+              final result = test.generateAsStream(0);
+
+              expect(
+                result,
+                emitsInOrder(
+                  const [
+                    ('AB', 0),
+                  ],
+                ),
+              );
+            },
+          );
+          test(
+            'emits each iteration\'s generated sentence',
+            () {
+              final test = DolSystem(
+                alphabet: ['A', 'B'],
+                axiom: 'AB',
+                productionRuleSet: {
+                  ProductionRule(predecessor: 'A', successor: 'AB'),
+                  ProductionRule(predecessor: 'B', successor: 'BA'),
+                },
+              );
+
+              final result = test.generateAsStream(2);
+
+              expect(
+                result,
+                emitsInOrder(
+                  const [
+                    ('ABBA', 1),
+                    ('ABBABAAB', 2),
+                  ],
+                ),
+              );
+            },
+          );
         },
       );
     },

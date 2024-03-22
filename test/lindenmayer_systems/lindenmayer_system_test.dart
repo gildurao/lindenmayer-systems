@@ -1,4 +1,4 @@
-import 'package:lindenmayer_systems/src/lindenmayer_systems/lindenmayer_systems.dart';
+import 'package:lindenmayer_systems/lindenmayer_systems.dart';
 import 'package:test/test.dart';
 
 class TestLindenmayerSystem extends LindenmayerSystem {
@@ -10,6 +10,11 @@ class TestLindenmayerSystem extends LindenmayerSystem {
   @override
   String generate(int iterations) {
     return '';
+  }
+
+  @override
+  Stream<(String, int)> generateAsStream(int iterations) {
+    return Stream.value(('', 0));
   }
 }
 

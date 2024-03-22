@@ -62,6 +62,10 @@ class DolSystem extends LindenmayerSystem {
   String generate(
     int iterations,
   ) {
+    assert(
+      !iterations.isNegative,
+      'iterations must be equal to or greater than zero',
+    );
     if (iterations == 0) {
       return axiom;
     }
@@ -87,5 +91,45 @@ class DolSystem extends LindenmayerSystem {
     }
 
     return sentence;
+  }
+
+  @override
+  Stream<(String sentence, int iteration)> generateAsStream(
+    int iterations,
+  ) async* {
+    if (iterations.isNegative) {
+      yield* Stream.error(
+        AssertionError(
+          'iterations must be equal to or greater than zero',
+        ),
+      );
+      return;
+    }
+    if (iterations == 0) {
+      yield (axiom, 0);
+      return;
+    }
+
+    var sentence = axiom;
+    final totalAmountOfIterations = iterations;
+
+    while (iterations != 0) {
+      var nextGeneration = StringBuffer();
+      for (var i = 0; i < sentence.length; i++) {
+        final currentSymbol = sentence[i];
+        var replace = currentSymbol;
+        for (final productionRule in productionRuleSet) {
+          final predecessor = productionRule.predecessor;
+          if (predecessor == currentSymbol) {
+            replace = productionRule.successor;
+            break;
+          }
+        }
+        nextGeneration.write(replace);
+      }
+      sentence = nextGeneration.toString();
+      iterations--;
+      yield (sentence, totalAmountOfIterations - iterations);
+    }
   }
 }
