@@ -1,3 +1,7 @@
+# 0.0.4
+
+- chore: improve README.md
+
 # 0.0.3
 
 - Add generateAsStream to LindenmayerSystem. 
