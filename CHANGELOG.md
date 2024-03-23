@@ -1,8 +1,12 @@
-# 0.0.4
+## 0.0.5
+
+- chore: fix image references in README; add usage example
+
+## 0.0.4
 
 - chore: improve README.md
 
-# 0.0.3
+## 0.0.3
 
 - Add generateAsStream to LindenmayerSystem. 
 - Fix example folder name.

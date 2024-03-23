@@ -61,9 +61,9 @@ If we take the length of each production string, we can verify the existence of 
 
 Even with simple production rules, one can obtain rather interesting and visually appealing drawings resembling plants or leaves. It is also possible to draw fractal shapes. See some examples below:
 
-![Bush](readme_assets/bush.png)
-![DragonCurveFractal](readme_assets/dragon_curve.png)
-![SierpinskiTriangle](readme_assets/sierpinski_triangle.png)
+![Bush](https://raw.githubusercontent.com/gildurao/lindenmayer-systems/main/readme_assets/bush.png)
+![DragonCurveFractal](https://raw.githubusercontent.com/gildurao/lindenmayer-systems/main/readme_assets/dragon_curve.png)
+![SierpinskiTriangle](https://raw.githubusercontent.com/gildurao/lindenmayer-systems/main/readme_assets/sierpinski_triangle.png)
 
 (These images were generated with Flutter!)
 
@@ -78,6 +78,31 @@ https://soundcloud.com/user-62526899/sets/l-music-polyphonic-interpretations-on-
 https://soundcloud.com/user-62526899/sets/l-music-scale-based
 
 https://soundcloud.com/user-62526899/sets/l-music-random-interpretations-of-l-systems
+
+## Usage
+
+### D0L-Systems
+
+```dart
+final testDolSystem = DolSystem(
+    alphabet: ['A', 'B'],
+    axiom: 'AB',
+    productionRuleSet: {
+      ProductionRule(predecessor: 'A', successor: 'AB'),
+      ProductionRule(predecessor: 'B', successor: 'BA'),
+    },
+  );
+
+  // Expected result is ABBA
+  print(testDolSystem.generate(1));
+
+  testDolSystem.generateAsStream(2)
+    ..listen(
+      // Prints (ABBA, 1) and ('ABBABAAB', 2)
+      print,
+    );
+}
+```
 
 ## Library Roadmap
 

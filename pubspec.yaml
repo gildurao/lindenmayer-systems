@@ -1,6 +1,6 @@
 name: lindenmayer_systems
 description: A Dart library to handle generative grammars known as L-Systems (Lindenmayer Systems).
-version: 0.0.4
+version: 0.0.5
 homepage: https://github.com/gildurao/lindenmayer-systems
 
 environment:
